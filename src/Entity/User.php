@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,41 +34,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $sex;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $phoneNumber;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $registerDate;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAdmin;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Session::class, inversedBy="users")
-     */
-    private $idSession;
-
-    public function __construct()
-    {
-        $this->idSession = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -159,84 +122,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getSex(): ?string
-    {
-        return $this->sex;
-    }
-
-    public function setSex(string $sex): self
-    {
-        $this->sex = $sex;
-
-        return $this;
-    }
-
-    public function getPhoneNumber(): ?int
-    {
-        return $this->phoneNumber;
-    }
-
-    public function setPhoneNumber(int $phoneNumber): self
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getRegisterDate(): ?\DateTimeInterface
-    {
-        return $this->registerDate;
-    }
-
-    public function setRegisterDate(\DateTimeInterface $registerDate): self
-    {
-        $this->registerDate = $registerDate;
-
-        return $this;
-    }
-
-    public function isIsAdmin(): ?bool
-    {
-        return $this->isAdmin;
-    }
-
-    public function setIsAdmin(bool $isAdmin): self
-    {
-        $this->isAdmin = $isAdmin;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Session>
-     */
-    public function getIdSession(): Collection
-    {
-        return $this->idSession;
-    }
-
-    public function addIdSession(Session $idSession): self
-    {
-        if (!$this->idSession->contains($idSession)) {
-            $this->idSession[] = $idSession;
-        }
-
-        return $this;
-    }
-
-    public function removeIdSession(Session $idSession): self
-    {
-        $this->idSession->removeElement($idSession);
-
-        return $this;
     }
 }

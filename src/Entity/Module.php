@@ -31,13 +31,13 @@ class Module
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Session::class, mappedBy="idModule")
+     * @ORM\OneToMany(targetEntity=Programme::class, mappedBy="Module")
      */
-    private $sessions;
+    private $programmes;
 
     public function __construct()
     {
-        $this->sessions = new ArrayCollection();
+        $this->programmes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,12 +57,12 @@ class Module
         return $this;
     }
 
-    public function getIdCategory(): ?Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setIdCategory(?Category $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
@@ -70,27 +70,30 @@ class Module
     }
 
     /**
-     * @return Collection<int, Session>
+     * @return Collection<int, Programme>
      */
-    public function getSessions(): Collection
+    public function getProgrammes(): Collection
     {
-        return $this->sessions;
+        return $this->programmes;
     }
 
-    public function addSession(Session $session): self
+    public function addProgramme(Programme $programme): self
     {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions[] = $session;
-            $session->addIdModule($this);
+        if (!$this->programmes->contains($programme)) {
+            $this->programmes[] = $programme;
+            $programme->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeSession(Session $session): self
+    public function removeProgramme(Programme $programme): self
     {
-        if ($this->sessions->removeElement($session)) {
-            $session->removeIdModule($this);
+        if ($this->programmes->removeElement($programme)) {
+            // set the owning side to null (unless already changed)
+            if ($programme->getModule() === $this) {
+                $programme->setModule(null);
+            }
         }
 
         return $this;

@@ -29,6 +29,10 @@ class Category
      */
     private $modules;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="category", orphanRemoval=true)
+     */
+
     public function __construct()
     {
         $this->modules = new ArrayCollection();
@@ -51,6 +55,10 @@ class Category
         return $this;
     }
 
+    public function __toString(){
+        return $this->CategoryName;
+    }
+
     /**
      * @return Collection<int, Module>
      */
@@ -63,7 +71,7 @@ class Category
     {
         if (!$this->modules->contains($module)) {
             $this->modules[] = $module;
-            $module->setIdCategory($this);
+            $module->setCategory($this);
         }
 
         return $this;
@@ -73,8 +81,8 @@ class Category
     {
         if ($this->modules->removeElement($module)) {
             // set the owning side to null (unless already changed)
-            if ($module->getIdCategory() === $this) {
-                $module->setIdCategory(null);
+            if ($module->getCategory() === $this) {
+                $module->setCategory(null);
             }
         }
 

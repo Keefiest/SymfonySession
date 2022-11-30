@@ -35,19 +35,19 @@ class Session
     private $endDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="idSession")
+     * @ORM\OneToMany(targetEntity=Programme::class, mappedBy="Session")
      */
-    private $users;
+    private $programmes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Module::class, inversedBy="sessions")
+     * @ORM\ManyToMany(targetEntity=Stagiaire::class, mappedBy="Session")
      */
-    private $idModule;
+    private $stagiaires;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->idModule = new ArrayCollection();
+        $this->programmes = new ArrayCollection();
+        $this->stagiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,18 +67,6 @@ class Session
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
     public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
@@ -91,53 +79,71 @@ class Session
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->users;
+        return $this->endDate;
     }
 
-    public function addUser(User $user): self
+    public function setEndDate(\DateTimeInterface $endDate): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addIdSession($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeIdSession($this);
-        }
+        $this->endDate = $endDate;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Module>
+     * @return Collection<int, Programme>
      */
-    public function getIdModule(): Collection
+    public function getProgrammes(): Collection
     {
-        return $this->idModule;
+        return $this->programmes;
     }
 
-    public function addIdModule(Module $idModule): self
+    public function addProgramme(Programme $programme): self
     {
-        if (!$this->idModule->contains($idModule)) {
-            $this->idModule[] = $idModule;
+        if (!$this->programmes->contains($programme)) {
+            $this->programmes[] = $programme;
+            $programme->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeIdModule(Module $idModule): self
+    public function removeProgramme(Programme $programme): self
     {
-        $this->idModule->removeElement($idModule);
+        if ($this->programmes->removeElement($programme)) {
+            // set the owning side to null (unless already changed)
+            if ($programme->getSession() === $this) {
+                $programme->setSession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stagiaire>
+     */
+    public function getStagiaires(): Collection
+    {
+        return $this->stagiaires;
+    }
+
+    public function addStagiaire(Stagiaire $stagiaire): self
+    {
+        if (!$this->stagiaires->contains($stagiaire)) {
+            $this->stagiaires[] = $stagiaire;
+            $stagiaire->addSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStagiaire(Stagiaire $stagiaire): self
+    {
+        if ($this->stagiaires->removeElement($stagiaire)) {
+            $stagiaire->removeSession($this);
+        }
 
         return $this;
     }
