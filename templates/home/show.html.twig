@@ -6,7 +6,7 @@
 
 <h3>Listes des modules de la catégorie {{ category.categoryName }}</h3>
 {% for module in category.modules %}
-    {{module}} <br>
+<a class="btn btn-sm btn-outline-light" href="{{ path('show_module', {'id': module.id}) }}">{{module}}</a> <br>
 {% endfor %}
 
 

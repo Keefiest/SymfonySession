@@ -186,7 +186,15 @@ class Stagiaire
 
         return $this;
     }
-
+    public function getFullAdress(){
+        return $this->adresse.", ".$this->codePostal." ".$this->ville;
+    }
+    // Obtenir l'âge du stagiaire
+    public function getAge(){
+        $now = new \DateTime();
+        $interval = date_diff($this->dateNaissance, $now);
+        return $interval->format("%Y");
+    }
     /**
      * @return Collection<int, Session>
      */
@@ -210,4 +218,8 @@ class Stagiaire
 
         return $this;
     }
+    public function __toString(){
+        return $this->prenom." ".$this->nom." / ".$this->ville;
+    }
+
 }

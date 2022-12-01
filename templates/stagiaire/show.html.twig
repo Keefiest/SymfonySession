@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+
+<h3>Stagiaire : {{ stagiaire.prenom }} {{ stagiaire.nom }}</h3>
+
+<p>
+    Sexe : {{stagiaire.sexe}}
+</p>
+<p>
+    Âge : {{stagiaire.age}}ans - ({{stagiaire.dateNaissance|date("d/m/Y")}})
+</p>
+<p>
+    Adresse : {{stagiaire.fullAdress}}
+</p>
+<p>
+    Numéro téléphonique : {{stagiaire.telephone}}
+</p>
+<p>
+    Email : {{stagiaire.email}}
+</p>
+<h3>Sessions dans lesquelles il est inscrit:</h3>
+
+{% for session in stagiaire.session %}
+    <a href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</a>
+{% endfor %}
+
+
+{% endblock %}

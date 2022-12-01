@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+
+<h3>Session crée par {{ session.formateur }}</h3>
+<p>
+    Début : {{session.startDate|date("H:i - d/m/Y")}}
+</p>
+<p>
+    Fin : {{session.endDate|date("H:i - d/m/Y")}}
+</p>
+<p>
+    Intitulé : {{session.title}}
+</p>
+<p>
+    Places prises : {{session.stagiaires|length}} / {{session.slots}}
+</p>
+
+
+
+{% endblock %}
