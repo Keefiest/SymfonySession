@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+
+<h3>Listes des sessions du module {{ module.moduleName }}</h3>
+{% for programme in module.programmes %}
+    {% for session in programme.session %}
+        {{session}}
+    {% endfor %}
+{% endfor %}
+
+
+{% endblock %}

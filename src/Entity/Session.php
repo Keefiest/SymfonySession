@@ -182,4 +182,7 @@ class Session
 
         return $this;
     }
+    public function __toString(){
+        return $this->title." ".$this->formateur." ".date_format($this->startDate, "d/m/Y")." ".date_format($this->endDate, "d/m/Y")." ".count($this->stagiaires)."/".$this->slots;
+    }
 }
