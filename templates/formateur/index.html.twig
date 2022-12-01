@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormateurController!{% endblock %}
+
+{% block body %}
+<h3>Registre des formateurs</h3>
+{% for formateur in formateurs %}
+    <a class="btn btn-sm btn-outline-light" href="">{{ formateur }}</a> </br>
+{% endfor %}
+{% endblock %}
