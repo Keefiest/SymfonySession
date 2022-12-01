@@ -5,6 +5,6 @@
 {% block body %}
 <h3>Registre des modules</h3>
 {% for module in modules %}
-    {{ module.moduleName }}<br>
+    <a class="btn btn-sm btn-outline-light" href="{{path('show_module', {'id': module.id })}}">{{ module.moduleName }}</a><br>
 {% endfor %}
 {% endblock %}

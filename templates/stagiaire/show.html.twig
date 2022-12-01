@@ -24,7 +24,7 @@
 <h3>Sessions dans lesquelles il est inscrit:</h3>
 
 {% for session in stagiaire.session %}
-    <a href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</a>
+    <a class="btn btn-sm btn-outline-light" href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</a>
 {% endfor %}
 
 

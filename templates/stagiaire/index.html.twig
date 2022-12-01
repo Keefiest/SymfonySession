@@ -5,6 +5,9 @@
 {% block body %}
 <h3>Registre des stagiaires</h3>
 {% for stagiaire in stagiaires %}
-    {{ stagiaire }} </br>
+    <a class="btn btn-sm btn-outline-light" href="{{ path('show_stagiaire', {'id': stagiaire.id})}}">{{ stagiaire }}</a> </br>
 {% endfor %}
+<p>
+    <a class="btn btn-sm btn-outline-dark" href="{{path('add_stagiaire')}}">Ajouter un stagiaire</a>
+</p>
 {% endblock %}

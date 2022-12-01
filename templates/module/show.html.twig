@@ -6,8 +6,11 @@
 
 <h3>Listes des sessions du module {{ module.moduleName }}</h3>
 {% for programme in module.programmes %}
-   <a href="{{ path('show_session', {'id': programme.session.id}) }}">{{programme.session}}</a> 
+   <a class="btn btn-sm btn-outline-light" href="{{ path('show_session', {'id': programme.session.id}) }}">{{programme.session}}</a> 
 {% endfor %}
+<p>
+    <a class="btn btn-sm btn-outline-dark" href="{{path('add_session')}}">Ajouter une session</a>
+</p>
 
 
 {% endblock %}

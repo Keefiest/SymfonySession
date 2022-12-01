@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class SessionType extends AbstractType
 {
@@ -21,11 +22,11 @@ class SessionType extends AbstractType
             ->add('title', TextType::class, [
                 "attr" => ["class" => "form-control"]
                 ])
-            ->add('startDate', DateType::class, [
+            ->add('startDate', DateTimeType::class, [
                 "widget" => "single_text",
                 "attr" => ["class" => "form-control"]
                 ])
-            ->add('endDate', DateType::class, [
+            ->add('endDate', DateTimeType::class, [
                 "widget" => "single_text",
                 "attr" => ["class" => "form-control"]
                 ])
