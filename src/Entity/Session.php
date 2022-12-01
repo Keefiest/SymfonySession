@@ -44,6 +44,17 @@ class Session
      */
     private $stagiaires;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Formateur::class, inversedBy="sessions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $formateur;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $slots;
+
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
@@ -144,6 +155,30 @@ class Session
         if ($this->stagiaires->removeElement($stagiaire)) {
             $stagiaire->removeSession($this);
         }
+
+        return $this;
+    }
+
+    public function getFormateur(): ?Formateur
+    {
+        return $this->formateur;
+    }
+
+    public function setFormateur(?Formateur $formateur): self
+    {
+        $this->formateur = $formateur;
+
+        return $this;
+    }
+
+    public function getSlots(): ?int
+    {
+        return $this->slots;
+    }
+
+    public function setSlots(int $slots): self
+    {
+        $this->slots = $slots;
 
         return $this;
     }

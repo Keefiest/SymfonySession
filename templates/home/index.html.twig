@@ -10,6 +10,6 @@
 
 <h3>Listes des catégories</h3>
 {% for category in categories %}
-    {{ category.categoryName }}<br>
+<a href="{{ path('show_category', {'id': category.id} )}}">{{ category.categoryName }}</a><br>
 {% endfor %}
 {% endblock %}

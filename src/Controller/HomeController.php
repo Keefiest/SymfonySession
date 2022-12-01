@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Category;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,4 +21,23 @@ class HomeController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
+    /**
+     * @Route("/home/{id}", name="show_category")
+     */
+    public function show(Category $category, ManagerRegistry $doctrine): Response{
+
+        return $this->render('home/show.html.twig', [
+            'category' => $category
+        ]);
+    }
+
+
+    // public function show(Module $module, ManagerRegistry $doctrine): Response{
+    //     $modules = $doctrine->getRepository(Module::class)->findBy(["category" => "1"], ["moduleName" => "ASC"]);
+    //     return $this->render('home/show.html.twig', [
+    //         'module' => $module,
+    //         'modules' => $modules,
+    //     ]);
+    // }
 }

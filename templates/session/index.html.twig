@@ -3,5 +3,8 @@
 {% block title %}Hello SessionController!{% endblock %}
 
 {% block body %}
-
+<h3>Registre des sessions</h3>
+{% for session in sessions %}
+    {{ session.title}}
+{% endfor %}
 {% endblock %}

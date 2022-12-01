@@ -55,10 +55,6 @@ class Category
         return $this;
     }
 
-    public function __toString(){
-        return $this->CategoryName;
-    }
-
     /**
      * @return Collection<int, Module>
      */
@@ -87,5 +83,9 @@ class Category
         }
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->getCategoryName();
     }
 }
