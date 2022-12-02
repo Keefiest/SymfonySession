@@ -22,13 +22,24 @@
                     <h1><span style="color: yellow;">S</span>ession<span style="color: yellow;">M</span>anager</h1>
                 </a>
             </div>
-            <div class="nav-left">
-                <a class="btn btn-outline-light" href="/session">Sessions</a>
-                <a class="btn btn-outline-light" href="/module">Modules</a>
-                <a class="btn btn-outline-light" href="/stagiaire">Stagiaires</a>
-                <a class="btn btn-outline-light" href="/formateur">Formateurs</a>
-                <a class="btn btn-outline-light" href="">Mon Profil</a>
-            </div>
+            {% if app.user %}
+                <div class="nav-left">
+                    <a class="btn btn-outline-light" href="/session">Sessions</a>
+                    <a class="btn btn-outline-light" href="/module">Modules</a>
+                    <a class="btn btn-outline-light" href="/stagiaire">Stagiaires</a>
+                    <a class="btn btn-outline-light" href="/formateur">Formateurs</a>
+                    <a class="btn btn-outline-light" href="">Mon Profil</a>
+                    <a class="btn btn-outline-light" href="{{path('app_logout')}}">Déconnexion</a>
+                </div>
+                {% else %}
+                <div class="nav-left">
+                    <a class="btn btn-outline-light" href="/session">Sessions</a>
+                    <a class="btn btn-outline-light" href="/module">Modules</a>
+                    <a class="btn btn-outline-light" href="/stagiaire">Stagiaires</a>
+                    <a class="btn btn-outline-light" href="/formateur">Formateurs</a>
+                    <a class="btn btn-outline-light" href="/home/inscription-connexion">Inscription/Connexion</a>
+                </div>
+            {% endif %}
         </nav>
         {% block body %}
         {% endblock %}

@@ -23,6 +23,14 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/home/inscription-connexion", name="app_inscription-connexion")
+     */
+    public function inscriptionConnexion(): Response
+    {
+        return $this->render('home/incription-connexion.html.twig', []);
+    }
+
+    /**
      * @Route("/home/{id}", name="show_category")
      */
     public function show(Category $category, ManagerRegistry $doctrine): Response{
