@@ -7,6 +7,7 @@
 {% for stagiaire in stagiaires %}
     <a class="btn btn-sm btn-outline-light" href="{{ path('show_stagiaire', {'id': stagiaire.id})}}">{{ stagiaire }}</a>
     <a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}"><i class="fa-solid fa-trash-can-arrow-up"></i></a>
+    <a href="{{ path('edit_stagiaire', {'id': stagiaire.id})}}"><i class="fa-solid fa-pen-to-square"></i></a> 
     </br>
 {% endfor %}
 <p>

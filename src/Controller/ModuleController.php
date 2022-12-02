@@ -26,6 +26,7 @@ class ModuleController extends AbstractController
     }
     /**
      * @Route("/module/add", name="add_module")
+     * @Route("/module/{id}/edit", name="edit_module")
      */    
     public function add(ManagerRegistry $doctrine, Module $module = null, Request $request): Response
     {
