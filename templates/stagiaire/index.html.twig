@@ -5,7 +5,9 @@
 {% block body %}
 <h3>Registre des stagiaires</h3>
 {% for stagiaire in stagiaires %}
-    <a class="btn btn-sm btn-outline-light" href="{{ path('show_stagiaire', {'id': stagiaire.id})}}">{{ stagiaire }}</a> </br>
+    <a class="btn btn-sm btn-outline-light" href="{{ path('show_stagiaire', {'id': stagiaire.id})}}">{{ stagiaire }}</a>
+    <a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}"><i class="fa-solid fa-trash-can-arrow-up"></i></a>
+    </br>
 {% endfor %}
 <p>
     <a class="btn btn-sm btn-outline-dark" href="{{path('add_stagiaire')}}">Ajouter un stagiaire</a>
