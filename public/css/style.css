@@ -22,3 +22,27 @@ nav{
 }
 
 /* END HEADER */
+/* MAIN */
+/* HOME */
+.home {
+    height: 80vh;
+    width: 100%;
+}
+.home p{
+    width: 50%;
+    text-align: left;
+}
+.home .listCategories{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.listCategories div{
+    display: flex;
+    justify-content: center;    
+}
+.listCategories .category{
+
+}
+/* END HOME */
+/* END MAIN */
