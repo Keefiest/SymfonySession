@@ -5,6 +5,11 @@
 {% block body %}
 <h3>Registre des modules</h3>
 {% for module in modules %}
-    <a class="btn btn-sm btn-outline-light" href="{{path('show_module', {'id': module.id })}}">{{ module.moduleName }}</a><br>
+    <a class="btn btn-sm btn-outline-light" href="{{path('show_module', {'id': module.id })}}">{{ module.moduleName }}</a>
+    <a href="{{ path('delete_module', {'id': module.id}) }}"><i class="fa-solid fa-trash-can-arrow-up"></i></a>
+    <br>
 {% endfor %}
+<p>
+    <a class="btn btn-sm btn-outline-dark" href="{{path('add_module')}}">Ajouter un module</a>
+</p>
 {% endblock %}
