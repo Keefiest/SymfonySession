@@ -24,6 +24,7 @@ class FormateurController extends AbstractController
     }
     /**
      * @Route("/formateur/add", name="add_formateur")
+     * @Route("/formateur/{id}/edit", name="edit_formateur")
      */    
     public function add(ManagerRegistry $doctrine, Formateur $formateur = null, Request $request): Response
     {
