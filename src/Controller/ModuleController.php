@@ -35,7 +35,7 @@ class ModuleController extends AbstractController
 
         $form = $this->createForm(ModuleType::class, $module);
         $form->handleRequest($request);
-
+        
         if($form->isSubmitted() && $form->isValid()){
 
             $module = $form->getData();

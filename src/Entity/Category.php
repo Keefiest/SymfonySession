@@ -29,10 +29,6 @@ class Category
      */
     private $modules;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="category", orphanRemoval=true)
-     */
-
     public function __construct()
     {
         $this->modules = new ArrayCollection();
