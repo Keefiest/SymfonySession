@@ -17,7 +17,10 @@
 <p>
     Places prises : {{session.stagiaires|length}} / {{session.slots}}
 </p>
-
-
+{% for programme in session.programmes %}
+    {{programme}}
+    <a href="{{ path('add_spgoramme', {'idSession': session.id}), {'idProgramme': programme.id}) }}"> add</a>
+    </br>
+{% endfor %}
 
 {% endblock %}

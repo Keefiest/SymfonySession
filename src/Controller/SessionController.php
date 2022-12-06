@@ -65,7 +65,44 @@ class SessionController extends AbstractController
         ]);
 
     }
-    
+    /**
+     * @Route("/session/addModule/{idSession}/{idProgramme}", name="add_sprogramme")
+     */
+    public function addProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Programme $programme){
+        $session->addProgramme($programme);
+        $entityManager = $doctrine->getManager();
+        // prepare
+        $entityManager->persist($session);
+        // insert into(execute)
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+    /**
+     * @Route("/session/delModule/{idSession}/{idProgramme}", name="del_sprogramme")
+     */
+    public function delProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Programme $programme){
+        $session->removeProgramme($programme);
+        $entityManager = $doctrine->getManager();
+        // prepare
+        $entityManager->persist($session);
+        // insert into(execute)
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+    /**
+     * @Route("/session/addStagiaire/{idSession}/{idStagiaire}", name="add_sstagiaire")
+     */
+    public function addStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
+
+    }
+    /**
+     * @Route("/session/delStagiaire/{idSession}/{idStagiaire}", name="del_sstagiaire")
+     */
+    public function delStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
+
+    }
     /**
      * @Route("/session/{id}", name="show_session")
      */
