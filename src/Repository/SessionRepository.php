@@ -60,6 +60,28 @@ class SessionRepository extends ServiceEntityRepository
         $query = $sub->getQuery();
         return $query->getResult();
     }
+        // afficher les modules non associés
+        public function findNonAssociés($session_id)
+        {
+            $em = $this->getEntityManager();
+            $sub = $em->createQueryBuilder();
+            
+            $qb = $sub;
+            $qb->select('pr')
+                ->from('App\Entity\Programme','pr')
+                ->leftJoin('pr.Session', 'se')
+                ->where('se.id = :id');
+    
+            $sub = $em->createQueryBuilder();
+            $sub->select('pr')
+                ->from('App\Entity\Programme','pr')
+                ->leftJoin('pr.Module','mo')
+                ->where($sub->expr()->notIn('mo.id', $qb->getDQL()))
+                ->setParameter('id', $session_id);
+    
+            $query = $sub->getQuery();
+            return $query->getResult();
+        }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

@@ -101,6 +101,36 @@ class SessionController extends AbstractController
         
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
+        /**
+     * @Route("/session/addProgramme/{idSession}/add/{idModule}", name="add_session_module")
+     * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
+     * @ParamConverter("module", options={"mapping": {"idModule": "id"}})
+     */
+    public function addModule(ManagerRegistry $doctrine, Request $request, Session $session, Module $module){
+        $session->addModule($module);
+        $entityManager = $doctrine->getManager();
+        // prepare
+        $entityManager->persist($session);
+        // insert into(execute)
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+    /**
+     * @Route("/session/delProgramme/{idSession}/{idModule}", name="del_session_module")
+     * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
+     * @ParamConverter("module", options={"mapping": {"idModule": "id"}})
+     */
+    public function delModule(ManagerRegistry $doctrine, Request $request, Session $session, Module $module){
+        $session->removeModule($module);
+        $entityManager = $doctrine->getManager();
+        // prepare
+        $entityManager->persist($session);
+        // insert into(execute)
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
     /**
      * @Route("/session/{id}", name="show_session"), requirements={"id"="\d+"}
      * IsGranted("ROLE_USER")
