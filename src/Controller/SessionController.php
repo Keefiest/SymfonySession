@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class SessionController extends AbstractController
 {
+
     /**
      * @Route("/session", name="app_session")
      */
@@ -25,28 +27,7 @@ class SessionController extends AbstractController
             'sessions' => $sessions,
         ]);
     }
-    // afficher les stagiaires non inscrit
-    public function findNonInscrits($session_id){
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-        
-        $qb = $sub;
-        $qb->select('s')
-            ->from('App/Entity/Stagiaire','s')
-            ->leftJoin('s.sessions', 'se')
-            ->where('se.id = :id');
 
-        $sub = $em->createQueryBuilder();
-        $sub->select('st')
-            ->from('App/Entity/Stagiaire','st')
-            ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
-            ->setParameter('id', $session_id)
-            ->orderBy('st.nom');
-        $query = $sub->getQuery();
-        return $query->getResult();
-
-        
-    }
     /**
      * @Route("/session/{id}/delete", name="delete_session")
      */
@@ -106,7 +87,7 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
     /**
-     * @Route("/session/delStagiaire/{idSession}/{idStagiaire}", name="del_sessionstagiaire")
+     * @Route("/session/delStagiaire/{idSession}/{idStagiaire}", name="del_session_stagiaire")
      * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
      * @ParamConverter("stagiaire", options={"mapping": {"idStagiaire": "id"}})
      */
@@ -122,10 +103,11 @@ class SessionController extends AbstractController
     }
     /**
      * @Route("/session/{id}", name="show_session"), requirements={"id"="\d+"}
+     * IsGranted("ROLE_USER")
      */
     public function show(Session $session, SessionRepository $sr): Response
     {
-        $nonInscrits = $sr->findNonInscrits($session->getId()); 
+        $nonInscrits = $sr->findNonInscrits($session->getId());
         
         return $this->render('session/show.html.twig', [
             'session' => $session,

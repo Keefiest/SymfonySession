@@ -17,9 +17,24 @@
 <p>
     Places prises : {{session.stagiaires|length}} / {{session.slots}}
 </p>
+
+<h3>Stagiaires inscrits</h3>
+{% for stagiaire in session.stagiaires %}
+    {{stagiaire}}
+    <a href="{{ path('del_session_stagiaire', {'idSession': session.id, 'idStagiaire': stagiaire.id}) }}"><i class="fa-solid fa-user-minus"></i></a>
+    <br>
+{% endfor %}
+
+<h3>Stagiaires disponibles</h3>
+{% for stagiaire in nonInscrits %}
+    {{stagiaire}}
+    <a href="{{ path('add_session_stagiaire', {'idSession': session.id, 'idStagiaire': stagiaire.id}) }}"><i class="fa-solid fa-user-plus"></i></a> 
+    <br>
+{% endfor %}
+
+<h3>Modules de la session</h3>
 {% for programme in session.programmes %}
     {{programme}}
-    <a href="{{ path('add_session_programme', {'idSession': session.id}, {'idProgramme': programme.id}) }}"> add</a>
     </br>
 {% endfor %}
 
