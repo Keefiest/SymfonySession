@@ -35,7 +35,15 @@
 <h3>Modules de la session</h3>
 {% for programme in session.programmes %}
     {{programme}}
+    <a href="{{ path('del_session_programme', {'idSession': session.id, 'idProgramme': programme.id}) }}">del</a>
     </br>
+{% endfor %}
+<h3>Modules ajoutables</h3>
+
+{% for module in nonAssocies %}
+    {{module}}
+    <form action="add_session_programme" method=""></form>
+    <br>
 {% endfor %}
 
 {% endblock %}

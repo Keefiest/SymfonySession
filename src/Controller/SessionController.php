@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Session;
+use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
@@ -102,11 +104,12 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
         /**
-     * @Route("/session/addProgramme/{idSession}/add/{idModule}", name="add_session_module")
+     * @Route("/session/addProgramme/{idSession}/{idModule}", name="add_session_programme")
      * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
      * @ParamConverter("module", options={"mapping": {"idModule": "id"}})
      */
-    public function addModule(ManagerRegistry $doctrine, Request $request, Session $session, Module $module){
+    public function addProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Module $module, Programme $programme){
+
         $session->addModule($module);
         $entityManager = $doctrine->getManager();
         // prepare
@@ -117,16 +120,14 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
     /**
-     * @Route("/session/delProgramme/{idSession}/{idModule}", name="del_session_module")
+     * @Route("/session/delProgramme/{idSession}/{idProgramme}", name="del_session_programme")
      * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
-     * @ParamConverter("module", options={"mapping": {"idModule": "id"}})
+     * @ParamConverter("programme", options={"mapping": {"idProgramme": "id"}})
      */
-    public function delModule(ManagerRegistry $doctrine, Request $request, Session $session, Module $module){
-        $session->removeModule($module);
+    public function delProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Programme $programme){
+
         $entityManager = $doctrine->getManager();
-        // prepare
-        $entityManager->persist($session);
-        // insert into(execute)
+        $entityManager->remove($programme);
         $entityManager->flush();
         
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
@@ -138,10 +139,13 @@ class SessionController extends AbstractController
     public function show(Session $session, SessionRepository $sr): Response
     {
         $nonInscrits = $sr->findNonInscrits($session->getId());
-        
+        $nonAssocies = $sr->findNonAssocies($session->getId());
+
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'nonInscrits' => $nonInscrits
+            'nonInscrits' => $nonInscrits,
+            'nonAssocies' => $nonAssocies,
+
         ]);
     }
     
