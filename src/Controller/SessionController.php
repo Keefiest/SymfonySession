@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Form\SessionType;
+use App\Repository\SessionRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class SessionController extends AbstractController
 {
@@ -21,6 +24,28 @@ class SessionController extends AbstractController
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions,
         ]);
+    }
+    // afficher les stagiaires non inscrit
+    public function findNonInscrits($session_id){
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        
+        $qb = $sub;
+        $qb->select('s')
+            ->from('App/Entity/Stagiaire','s')
+            ->leftJoin('s.sessions', 'se')
+            ->where('se.id = :id');
+
+        $sub = $em->createQueryBuilder();
+        $sub->select('st')
+            ->from('App/Entity/Stagiaire','st')
+            ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+            ->setParameter('id', $session_id)
+            ->orderBy('st.nom');
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+        
     }
     /**
      * @Route("/session/{id}/delete", name="delete_session")
@@ -66,10 +91,12 @@ class SessionController extends AbstractController
 
     }
     /**
-     * @Route("/session/addModule/{idSession}/{idProgramme}", name="add_sprogramme")
+     * @Route("/session/addStagiaire/{idSession}/add/{idStagiaire}", name="add_session_stagiaire")
+     * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
+     * @ParamConverter("stagiaire", options={"mapping": {"idStagiaire": "id"}})
      */
-    public function addProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Programme $programme){
-        $session->addProgramme($programme);
+    public function addStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
+        $session->addStagiaire($stagiaire);
         $entityManager = $doctrine->getManager();
         // prepare
         $entityManager->persist($session);
@@ -79,10 +106,12 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
     /**
-     * @Route("/session/delModule/{idSession}/{idProgramme}", name="del_sprogramme")
+     * @Route("/session/delStagiaire/{idSession}/{idStagiaire}", name="del_sessionstagiaire")
+     * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
+     * @ParamConverter("stagiaire", options={"mapping": {"idStagiaire": "id"}})
      */
-    public function delProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Programme $programme){
-        $session->removeProgramme($programme);
+    public function delStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
+        $session->removeStagiaire($stagiaire);
         $entityManager = $doctrine->getManager();
         // prepare
         $entityManager->persist($session);
@@ -92,24 +121,16 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
     /**
-     * @Route("/session/addStagiaire/{idSession}/{idStagiaire}", name="add_sstagiaire")
+     * @Route("/session/{id}", name="show_session"), requirements={"id"="\d+"}
      */
-    public function addStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
-
-    }
-    /**
-     * @Route("/session/delStagiaire/{idSession}/{idStagiaire}", name="del_sstagiaire")
-     */
-    public function delStagiaire(ManagerRegistry $doctrine, Request $request, Session $session, Stagiaire $stagiaire){
-
-    }
-    /**
-     * @Route("/session/{id}", name="show_session")
-     */
-    public function show(Session $session): Response
+    public function show(Session $session, SessionRepository $sr): Response
     {
+        $nonInscrits = $sr->findNonInscrits($session->getId()); 
+        
         return $this->render('session/show.html.twig', [
-            'session' => $session
+            'session' => $session,
+            'nonInscrits' => $nonInscrits
         ]);
     }
+    
 }

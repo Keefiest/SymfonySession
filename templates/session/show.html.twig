@@ -19,7 +19,7 @@
 </p>
 {% for programme in session.programmes %}
     {{programme}}
-    <a href="{{ path('add_spgoramme', {'idSession': session.id}), {'idProgramme': programme.id}) }}"> add</a>
+    <a href="{{ path('add_session_programme', {'idSession': session.id}, {'idProgramme': programme.id}) }}"> add</a>
     </br>
 {% endfor %}
 
