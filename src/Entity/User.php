@@ -269,7 +269,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function isVerified(): bool
-    {
+    {   
         return $this->isVerified;
     }
 
@@ -278,5 +278,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+    public function __toString(){
+        return $this->nom." ".$this->prenom;
     }
 }

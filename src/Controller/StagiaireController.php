@@ -22,7 +22,14 @@ class StagiaireController extends AbstractController
             'stagiaires' => $stagiaires,
         ]);
     }
-    
+    /**
+     * @Route("/profil", name="user_profil")
+     */
+    public function profil(){
+        return $this->render('stagiaire/profil.html.twig', [
+            
+        ]);
+    }
      /**
      * @Route("/stagiaire/add", name="add_stagiaire")
      * @Route("/stagiaire/{id}/edit", name="edit_stagiaire")
