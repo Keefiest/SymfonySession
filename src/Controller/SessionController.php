@@ -103,17 +103,25 @@ class SessionController extends AbstractController
         
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
-        /**
+    /**
      * @Route("/session/addProgramme/{idSession}/{idModule}", name="add_session_programme")
      * @ParamConverter("session", options={"mapping": {"idSession": "id"}})
      * @ParamConverter("module", options={"mapping": {"idModule": "id"}})
+     * @IsGranted("ROLE_USER")
      */
-    public function addProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Module $module, Programme $programme){
+    public function addProgramme(ManagerRegistry $doctrine, Request $request, Session $session, Module $module){
+       
+        $programme = new Programme();
+        $duration = $request->request->get('duration');
+        // dd($request->request->get('duration'));
 
-        $session->addModule($module);
         $entityManager = $doctrine->getManager();
+
+        $programme->setModule($module);
+        $programme->setSession($session);
+        $programme->setDuration($duration);
         // prepare
-        $entityManager->persist($session);
+        $entityManager->persist($programme);
         // insert into(execute)
         $entityManager->flush();
 
@@ -134,7 +142,7 @@ class SessionController extends AbstractController
     }
     /**
      * @Route("/session/{id}", name="show_session"), requirements={"id"="\d+"}
-     * IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_USER")
      */
     public function show(Session $session, SessionRepository $sr): Response
     {

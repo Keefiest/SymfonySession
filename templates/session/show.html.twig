@@ -42,7 +42,10 @@
 
 {% for module in nonAssocies %}
     {{module}}
-    <form action="add_session_programme" method=""></form>
+    <form action="{{ path('add_session_programme', {'idSession': session.id, 'idModule': module.id }) }}" method="post">
+        <input type="number" id="duration" name="duration" required>jours
+        <input type="submit" value="ajouter" >
+    </form>
     <br>
 {% endfor %}
 
